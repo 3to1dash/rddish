@@ -11,7 +11,7 @@ public interface IUnitOfWork
     IEnumerable<radacct>? GetUsers();
     Task<int> AddNas(NasDto input);
     Task<int> UpdateNas(int nasId, NasDto input);
-    Task<int> DisableSimultaneous(string userName);
+    Task<int> AddSimultaneous(string userName, int allowedSessions);
     void Commit();
     void Rollback();
     void Dispose();
@@ -75,14 +75,14 @@ public class UnitOfWork : IDisposable, IUnitOfWork
         return await _connection.ExecuteAsync(sql, new { nasId, input });
     }
 
-    public async Task<int> DisableSimultaneous(string userName)
+    public async Task<int> AddSimultaneous(string userName, int allowedSessions)
     {
         Debug.Assert(_connection != null, "There are no database connections");
         const string sql = """
                            INSERT INTO radcheck (username,attribute,op,value)
-                           VALUES (@UserName, 'Simultaneous-Use', ':=', '1')
+                           VALUES (@UserName, 'Simultaneous-Use', ':=', @AllowedSessions)
                            """;
-        return await _connection.ExecuteAsync(sql, new { UserName = userName });
+        return await _connection.ExecuteAsync(sql, new { UserName = userName, AllowedSessions = allowedSessions });
     }
 
     public void Commit()

@@ -47,13 +47,13 @@ public class RadiusController : ControllerBase
         throw new NotImplementedException();
     }
 
-    [HttpPost("DisableSim")]
-    public async Task<IActionResult> DisableSim(string userName)
+    [HttpPost("AddSim")]
+    public async Task<IActionResult> AddSim(string userName, int allowedSessions)
     {
         var response = new Result<int>();
         try
         {
-            var result = await _unitOfWork.DisableSimultaneous(userName);
+            var result = await _unitOfWork.AddSimultaneous(userName, allowedSessions);
             return StatusCode(StatusCodes.Status201Created, response.Success(result));
         }
         catch (Exception e)

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using rddish.API.Data.RequestDtos;
 using rddish.Application;
 using rddish.Mikrotik.Services;
 
@@ -29,11 +30,5 @@ public class MikrorikController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, response.Fail(e));
         }
     }
-}
 
-public class RadiusClient
-{
-    public string Services { get; set; }
-    public string Address { get; set; }
-    public string Secret { get; set; }
 }

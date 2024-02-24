@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using rddish.api.Data;
+using rddish.API.Data.RequestDtos;
 using rddish.Application;
 using rddish.Radius;
 using rddish.Radius.Data;

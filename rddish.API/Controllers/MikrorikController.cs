@@ -31,4 +31,18 @@ public class MikrorikController : ControllerBase
         }
     }
 
+    [HttpPost("AddIpPool")]
+    public IActionResult AddIpPool([FromBody] IpPool input)
+    {
+        var response = new Result<object>();
+        try
+        {
+            _mikrotikService.AddIpPool(input.Name, input.FromIp, input.ToIp);
+            return StatusCode(StatusCodes.Status201Created, response.Success());
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, response.Fail(e));
+        }
+    }
 }

@@ -61,4 +61,49 @@ public class RadiusController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, response.Fail(e));
         }
     }
+
+    [HttpPost("AddUserStaticIp")]
+    public async Task<IActionResult> AddUserStaticIp(string userName, string staticIp)
+    {
+        var response = new Result<int>();
+        try
+        {
+            var result = await _unitOfWork.AddStaticIp(userName, staticIp);
+            return StatusCode(StatusCodes.Status201Created, response.Success(result));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, response.Fail(e));
+        }
+    }
+
+    [HttpPost("AddUserExpirationDate")]
+    public async Task<IActionResult> AddUserExpirationDate(string userName, DateTime expirationDate)
+    {
+        var response = new Result<int>();
+        try
+        {
+            var result = await _unitOfWork.AddUserExpirationDate(userName, expirationDate);
+            return StatusCode(StatusCodes.Status201Created, response.Success(result));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, response.Fail(e));
+        }
+    }
+
+    [HttpPost("AddUserRateLimit")]
+    public async Task<IActionResult> AddUserRateLimit(string userName, string uploadLimit, string downloadLimit)
+    {
+        var response = new Result<int>();
+        try
+        {
+            var result = await _unitOfWork.AddUserRateLimit(userName, uploadLimit, downloadLimit);
+            return StatusCode(StatusCodes.Status201Created, response.Success(result));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, response.Fail(e));
+        }
+    }
 }
